@@ -1,2 +1,23 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+{{! Product Card grid }}
+<section class="mt-4">
+  <div class="container">
+    <div class="row g-3">
+      {{#each products}}
+        <div class="col-md-3">
+          <div class="card">
+            <img
+              src="{{this.image}}"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{this.name}}</h5>
+              <p class="card-text">{{this.description}}</p>
+              <a href="#" class="btn btn-primary">Add to cart</a>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</section>
