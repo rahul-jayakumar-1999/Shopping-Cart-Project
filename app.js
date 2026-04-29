@@ -3,11 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const exphbs = require('express-handlebars');
+const exphbs = require('express-handlebars'); // layout and partials
+const fileUpload = require('express-fileupload'); // upload file / images
 
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// Routes
+var userRouter = require('./routes/userRouter');
+var adminRouter = require('./routes/adminRouter');
 
 var app = express();
 
@@ -22,6 +23,8 @@ app.engine('hbs', exphbs.engine({
   partialsDir: path.join(__dirname, 'views/partials'),
   defaultLayout: 'layout'   // layout file name
 }));
+// enable file upload
+app.use(fileUpload());
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -29,8 +32,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', userRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
