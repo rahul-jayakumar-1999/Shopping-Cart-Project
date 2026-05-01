@@ -2,6 +2,10 @@ var express = require("express");
 const { route } = require("./userRouter");
 var router = express.Router();
 
+const productController = require("../controllers/productController.js");
+const fs = require("fs");
+const path = require("path");
+
 // Admin Router
 router.get("/", function (req, res, next) {
   const products = [
@@ -54,7 +58,23 @@ router.get("/add-product", function (req, res) {
 });
 
 router.post("/add-product", (req, res) => {
-  console.log(req.body);
-  console.log(req.files.image);
+  productController.addProduct(req.body, (id) => {
+    let image = req.files.image;
+    let ext = path.extname(image.name); // ".jpg"
+
+    const uploadDir = path.join(__dirname, "..", "public", "uploads");
+
+    fs.mkdirSync(uploadDir, { recursive: true });
+
+    const filePath = path.join(uploadDir, id + ext);
+
+    image.mv(filePath, (err, done) => {
+      if (err) {
+        console.log("uplaod failed");
+        return;
+      }
+      res.render("admin/add-product");
+    });
+  });
 });
 module.exports = router;
