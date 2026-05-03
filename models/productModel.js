@@ -30,7 +30,6 @@ module.exports = {
         });
     });
   },
-
   updateImage: function (id, fileName) {
     return new Promise((resolve, reject) => {
       const db = getDB();
