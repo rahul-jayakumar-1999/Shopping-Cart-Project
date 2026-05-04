@@ -17,6 +17,7 @@ module.exports = {
         });
     });
   },
+
   createProduct: function (productData) {
     return new Promise((resolve, reject) => {
       const db = getDB();
@@ -30,6 +31,7 @@ module.exports = {
         });
     });
   },
+  
   updateImage: function (id, fileName) {
     return new Promise((resolve, reject) => {
       const db = getDB();

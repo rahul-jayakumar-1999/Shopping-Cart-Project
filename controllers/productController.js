@@ -8,6 +8,21 @@ module.exports = {
   getAddProduct: (req, res) =>
     res.render("admin/add-product", { categorys, admin: true }),
 
+  displayProducts: (req, res) => {
+    productModel
+      .getProduct()
+      .then((products) => {
+        res.render("user/view-products", {
+          title: "Shopping Cart",
+          products,
+          admin: false,
+        });
+      })
+      .catch((err) => {
+        console.error("ERROR: " + err);
+      });
+  },
+
   getProduct: (req, res) => {
     productModel
       .getProduct()
@@ -44,7 +59,7 @@ module.exports = {
           productModel
             .updateImage(id, fileName)
             .then(() => {
-              res.render("admin/add-product", { categorys, admin: true });
+              console.log("Product Added Successfully");
             })
             .catch((err) => {
               console.error("ERROR" + err);
