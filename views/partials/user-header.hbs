@@ -20,11 +20,13 @@
             <a class="nav-link active" aria-current="page" href="/">Products</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Cart</a>
+            <a class="nav-link" href="/cart">Cart</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Orders</a>
-          </li>
+          {{#if user}}
+            <li class="nav-item">
+              <a class="nav-link" href="#">Orders</a>
+            </li>
+          {{/if}}
         </ul>
         <div class="dropdown me-3 mb-3 mb-sm-3 mb-lg-0">
           <button
@@ -33,10 +35,19 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Account
+            {{#if user}}
+              {{user.name}}
+            {{else}}
+              Account
+            {{/if}}
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/login">Login</a></li>
+            {{#if user}}
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+            {{else}}
+              <li><a class="dropdown-item" href="/login">Login</a></li>
+            {{/if}}
+
           </ul>
         </div>
         <form class="d-flex mb-0" role="search">

@@ -3,7 +3,13 @@ const bcrypt = require("bcrypt");
 const userModel = require("../models/userModel.js");
 
 module.exports = {
-  getUserLogin: (req, res) => res.render("user/login", { title: "Login" }),
+  getUserLogin: (req, res) => {
+    res.render("user/login", {
+      title: "Login",
+      error: req.session.error || null,
+    });
+    req.session.error = null; 
+  },
 
   getUserSignup: (req, res) => res.render("user/Signup", { title: "Login" }),
 
@@ -38,13 +44,32 @@ module.exports = {
           if (!isMatch) {
             throw new Error("Wrong Password");
           }
+
+          return user;
         });
       })
-      .then(() => {
+      .then((user) => {
+        req.session.user = {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+        };
         console.log("Login Successfull");
+        req.session.error = null;
+        res.redirect("/");
       })
       .catch((err) => {
         console.error("ERROR " + err);
+        req.session.error = err.message;
+        res.redirect("/login");
       });
+  },
+
+  userLogout: (req, res) => {
+    req.session.destroy(() => {
+      res.clearCookie("connect.sid"); // default cookie name
+      console.log("Logout Successfully");
+      res.redirect("/login");
+    });
   },
 };

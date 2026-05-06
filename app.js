@@ -7,6 +7,8 @@ const exphbs = require("express-handlebars"); // layout and partials
 const fileUpload = require("express-fileupload"); // upload file / images
 // database connection
 const { connectDB } = require("./config/connection.js");
+// Session-Cookies
+const sessionCookies = require("express-session");
 
 // Routes
 var userRouter = require("./routes/userRouter");
@@ -31,6 +33,23 @@ app.engine(
 );
 // enable file upload
 app.use(fileUpload());
+// Session Cookies
+app.use(
+  sessionCookies({
+    secret: "secret_key", // change this to something secure
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60, // 1 hour
+      httpOnly: true,
+    },
+  }),
+);
+// Prevent browser caching
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
 
 app.use(logger("dev"));
 app.use(express.json());

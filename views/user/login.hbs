@@ -1,5 +1,6 @@
 <section class="container">
   <h1 class="text-center mt-5">Login</h1>
+
   <form class="w-25 mx-auto" method="post" action="/login">
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Email</label>
@@ -21,4 +22,12 @@
         href="/signup"
       >Create an account.</a></p>
   </form>
+  {{#if error}}
+    <div class="position-fixed bottom-0 end-0 p-5">
+      <div class="alert alert-danger" role="alert">
+        {{error}}
+      </div>
+    </div>
+  {{/if}}
+
 </section>
