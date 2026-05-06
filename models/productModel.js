@@ -31,7 +31,7 @@ module.exports = {
         });
     });
   },
-  
+
   updateImage: function (id, fileName) {
     return new Promise((resolve, reject) => {
       const db = getDB();
@@ -43,6 +43,13 @@ module.exports = {
         .catch((err) => {
           reject(err);
         });
+    });
+  },
+
+  deleteProduct: async function (productId) {
+    const db = getDB();
+    return await db.collection(collection.PRODUCT_COLLECTION).deleteOne({
+      _id: new ObjectId(productId),
     });
   },
 };

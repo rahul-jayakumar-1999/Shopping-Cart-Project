@@ -59,6 +59,7 @@ module.exports = {
           productModel
             .updateImage(id, fileName)
             .then(() => {
+              res.render("admin/add-product", { admin: true, categorys });
               console.log("Product Added Successfully");
             })
             .catch((err) => {
@@ -69,5 +70,19 @@ module.exports = {
       .catch((err) => {
         console.error("ERROR: " + err);
       });
+  },
+
+  deleteProduct: async (req, res) => {
+    try {
+      let productId = req.params.id;
+      console.log(productId);
+
+      const result = await productModel.deleteProduct(productId);
+      console.log(result);
+
+      res.redirect("/admin");
+    } catch (err) {
+      console.log(err);
+    }
   },
 };
