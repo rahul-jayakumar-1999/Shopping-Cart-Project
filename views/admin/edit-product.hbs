@@ -1,0 +1,62 @@
+<section>
+  <div class="container">
+    <h1>Edit Product</h1>
+    <form
+      action="/admin/edit-product/{{product._id}}"
+      method="post"
+      enctype="multipart/form-data"
+      class="w-50"
+    >
+      <div class="">
+        <label for="name" class="form-label">Name:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          placeholder="Product name"
+          name="name"
+          value="{{product.name}}"
+        />
+      </div>
+      <label for="category" class="form-label">Category:</label>
+      <select class="form-select" name="category">
+        <option value="{{product.category}}" selected>
+          {{product.category}}
+        </option>
+        {{#each categorys}}
+          <option value="{{this}}">{{this}}</option>
+        {{/each}}
+
+      </select>
+      <label for="comment">Description:</label>
+      <textarea
+        class="form-control"
+        rows="2"
+        id="description"
+        name="description"
+      >{{product.description}}</textarea>
+      <label for="price" class="form-label">Price:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="price"
+        placeholder="Product Price"
+        name="price"
+        value="{{product.price}}"
+      />
+      <img id="previewImage" src="/uploads/{{product.image}}" width="100" class="mt-2 mb-2">
+      <div class="input-group mb-3 mt-3">
+        <label class="input-group-text" for="inputGroupFile01">Upload</label>
+        <input
+          type="file"
+          class="form-control"
+          id="inputGroupFile01"
+          name="image"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</section>
+
+<script src="/javascripts/updateImage.js"></script>

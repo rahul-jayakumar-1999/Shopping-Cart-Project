@@ -75,7 +75,22 @@ module.exports = {
   deleteProduct: async (req, res) => {
     try {
       let productId = req.params.id;
-      console.log(productId);
+      const product = await productModel.getOneProduct(productId);
+
+      // image path
+      const imagePath = path.join(
+        __dirname,
+        "..",
+        "public",
+        "uploads",
+        product.image,
+      );
+      console.log(imagePath);
+
+      // delete image from folder
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
 
       const result = await productModel.deleteProduct(productId);
       console.log(result);
@@ -83,6 +98,59 @@ module.exports = {
       res.redirect("/admin");
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  getEditPage: async (req, res) => {
+    try {
+      let productId = req.params.id;
+      console.log(productId);
+
+      const product = await productModel.getOneProduct(productId);
+      res.render("admin/edit-product", { admin: true, categorys, product });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  updateProduct: async (req, res) => {
+    try {
+      let productId = req.params.id;
+      let { name, category, description, price } = req.body;
+      
+      console.log(name, category, description, price);
+      let fileName = "";
+
+      if (req.files && req.files.image) {
+        let image = req.files.image;
+
+        let ext = path.extname(image.name); // ".jpg"
+
+        const uploadDir = path.join(__dirname, "..", "public", "uploads");
+
+        const fileName = productId + ext;
+
+        const filePath = path.join(uploadDir, fileName);
+
+        await image.mv(filePath);
+      }
+      const updateData = {
+        name,
+        category,
+        description,
+        price,
+      };
+
+      console.log(updateData);
+
+      if (fileName) {
+        updateData.image = fileName;
+      }
+
+      await productModel.updateProduct(productId, updateData);
+      console.log("Successfull");
+    } catch (error) {
+      console.log(error);
     }
   },
 };

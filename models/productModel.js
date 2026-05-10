@@ -1,6 +1,7 @@
 const { getDB } = require("../config/connection.js");
 const collection = require("../config/collections.js");
-const { ObjectId } = require("mongodb");
+const { ObjectId, deserialize } = require("mongodb");
+const category = require("../config/category.js");
 
 module.exports = {
   getProduct: function () {
@@ -51,5 +52,22 @@ module.exports = {
     return await db.collection(collection.PRODUCT_COLLECTION).deleteOne({
       _id: new ObjectId(productId),
     });
+  },
+
+  getOneProduct: async function (productId) {
+    const db = getDB();
+    return await db.collection(collection.PRODUCT_COLLECTION).findOne({
+      _id: new ObjectId(productId),
+    });
+  },
+
+  updateProduct: async function (productId, productData) {
+    const db = getDB();
+    return await db.collection(collection.PRODUCT_COLLECTION).updateOne(
+      { _id: new ObjectId(productId) },
+      {
+        $set: productData,
+      },
+    );
   },
 };
