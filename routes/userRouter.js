@@ -16,6 +16,7 @@ router.get("/signup", guestMiddleware, userController.getUserSignup);
 router.get("/logout", userController.userLogout);
 
 router.get("/cart", authMiddleware, cartController.getCart);
+router.get("/add-to-cart/:id", authMiddleware, cartController.addToCart);
 
 router.post("/login", userController.userLogin);
 router.post("/signup", userController.userSignUp);
