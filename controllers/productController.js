@@ -2,13 +2,17 @@ const fs = require("fs");
 const path = require("path");
 
 const productModel = require("../models/productModel.js");
+const cartModel = require("../models/cartModel.js");
 const categorys = require("../config/category.js");
 
 module.exports = {
   getAddProduct: (req, res) =>
     res.render("admin/add-product", { categorys, admin: true }),
 
-  displayProducts: (req, res) => {
+  displayProducts: async (req, res) => {
+    let userId = req.session.user._id;
+    let cartCount = await cartModel.cartCount(userId);
+    // console.log(cartCount);
     productModel
       .getProduct()
       .then((products) => {
@@ -16,6 +20,7 @@ module.exports = {
           title: "Shopping Cart",
           products,
           admin: false,
+          cartCount
         });
       })
       .catch((err) => {

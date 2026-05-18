@@ -1,35 +1,17 @@
-<section class="container">
+<section class="container mt-5">
   <table class="table">
     <tbody>
+      {{#each cartProducts.[0].cartProducts}}
       <tr>
-        <td><img
-            src="../../public/images/Backpack.webp"
-            alt=""
-            width="50px"
-          /></td>
-        <td>Name</td>
+        <td><img src="/uploads/{{this.image}}" alt="" width="50px" /></td>
+        <td>{{this.name}}</td>
         <td><button class="btn btn-outline-secondary">+</button>
           <span>1</span>
           <button class="btn btn-outline-secondary">-</button></td>
-        <td>40000</td>
+        <td>{{this.price}}</td>
+        <td><a href="" class="btn btn-danger">Remove</a></td>
       </tr>
-      <tr>
-        <td><img src="" alt="" /></td>
-        <td>Name</td>
-        <td><button class="btn btn-outline-secondary">+</button>
-          <span>1</span>
-          <button class="btn btn-outline-secondary">-</button></td>
-        <td>40000</td>
-      </tr>
-      <tr>
-        <td><img src="" alt="" /></td>
-        <td>Name</td>
-        <td><button class="btn btn-outline-secondary">+</button>
-          <span>1</span>
-          <button class="btn btn-outline-secondary">-</button></td>
-        <td>40000</td>
-      </tr>
-
+      {{/each}}
     </tbody>
   </table>
 </section>

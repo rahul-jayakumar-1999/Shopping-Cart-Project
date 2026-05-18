@@ -51,4 +51,21 @@ module.exports = {
       ])
       .toArray();
   },
+
+  cartCount: async function (userId) {
+    let count = 0;
+    const db = getDB();
+    const isCartExist = await db
+      .collection(collection.CART_COLLECTION)
+      .findOne({ userId: new ObjectId(userId) });
+    
+    if (isCartExist) {
+      count = isCartExist.products.length;
+      return count;
+    } else {
+      return count;
+    }
+    
+    
+  }
 };

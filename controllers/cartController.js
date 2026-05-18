@@ -5,8 +5,8 @@ module.exports = {
     try {
       const userId = req.session.user._id;
       let cartProducts = await cartModel.getCart(userId);
-      console.log(cartProducts[0].cartProducts);
-      res.render("user/cart", { title: "Cart" });
+      // console.log(cartProducts[0].cartProducts);
+      res.render("user/cart", { title: "Cart", cartProducts });
     } catch (error) {
       console.error("ERROR", error);
     }
@@ -17,8 +17,10 @@ module.exports = {
       const productId = req.params.id;
       const userId = req.session.user._id;
       await cartModel.addToCart(userId, productId);
-      // console.log("Product added to cart successfully");
-      res.redirect("/");
+      const cart = await cartModel.getCart(userId);
+      console.log("PRODUCTS:", cart.products);
+      const cartCount = cart[0].products.length;
+      res.json({ status: true, cartCount: cartCount });
     } catch (error) {
       console.error("Error adding product to cart: " + error);
     }

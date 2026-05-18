@@ -10,7 +10,8 @@
               <h5 class="card-title">{{this.name}}</h5>
               <p class="card-text">{{this.description}}</p>
               <p class="card-text">{{this.price}}</p>
-              <a href="/add-to-cart/{{this._id}}" class="btn btn-primary">Add to cart</a>
+              {{!-- <a href="/add-to-cart/{{this._id}}" class="btn btn-primary">Add to cart</a> --}}
+              <button class="btn btn-primary" onclick="addToCart('{{this._id}}')">Add to cart</button>
             </div>
           </div>
         </div>
@@ -18,3 +19,25 @@
     </div>
   </div>
 </section>
+
+<script>
+  async function addToCart(productId) {
+    try {
+      console.log("inside addtocart")
+      const response = await fetch(`/add-to-cart/${productId}`, {
+        method: "get",
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.status) {
+        document.getElementById("cart-count").innerText = data.cartCount;
+      }
+    } catch (err) {
+      console.log("ERROR" + err);
+    }
+  }
+</script>
