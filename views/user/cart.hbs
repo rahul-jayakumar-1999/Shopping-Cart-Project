@@ -1,16 +1,18 @@
 <section class="container mt-5">
   <table class="table">
     <tbody>
-      {{#each cartProducts.[0].cartProducts}}
-      <tr>
-        <td><img src="/uploads/{{this.image}}" alt="" width="50px" /></td>
-        <td>{{this.name}}</td>
-        <td><button class="btn btn-outline-secondary">+</button>
-          <span>1</span>
-          <button class="btn btn-outline-secondary">-</button></td>
-        <td>{{this.price}}</td>
-        <td><a href="" class="btn btn-danger">Remove</a></td>
-      </tr>
+      {{#each cartProducts}}
+        <tr>
+          {{#each cartProduct}}
+            <td><img src="/uploads/{{this.image}}" alt="" width="50px" /></td>
+            <td>{{this.name}}</td>
+          {{/each}}
+          <td><button class="btn btn-outline-secondary">+</button>
+            <span>{{this.quantity}}</span>
+            <button class="btn btn-outline-secondary">-</button></td>
+          <td>{{this.price}}</td>
+          <td><a href="" class="btn btn-danger">Remove</a></td>
+        </tr>
       {{/each}}
     </tbody>
   </table>

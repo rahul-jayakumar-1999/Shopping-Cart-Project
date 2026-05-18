@@ -13,7 +13,7 @@ module.exports = {
       .collection(collection.CART_COLLECTION)
       .findOne({ userId: new ObjectId(userId) });
     if (isCartExist) {
-      console.log(isCartExist.products);
+      // console.log(isCartExist.products);
       let productExist = isCartExist.products.findIndex((product) => {
         // console.log("1"+product.productID)
         // console.log("2"+productId)
@@ -53,20 +53,21 @@ module.exports = {
           $match: { userId: new ObjectId(userId) },
         },
         {
+          $unwind: "$products"
+        },
+        {
+          $project: {
+            productId: "$products.productID",
+            quantity: "$products.quantity"
+          }
+        },
+        {
           $lookup: {
             from: collection.PRODUCT_COLLECTION,
-            let: { productList: "$products" },
-            pipeline: [
-              {
-                $match: {
-                  $expr: {
-                    $in: ["$_id", "$$productList"],
-                  },
-                },
-              },
-            ],
-            as: "cartProducts",
-          },
+            localField: "productId",
+            foreignField: "_id",
+            as: "cartProduct"
+          }
         },
       ])
       .toArray();
