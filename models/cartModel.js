@@ -21,12 +21,13 @@ module.exports = {
       });
 
       if (productExist !== -1) {
-        return await db
-          .collection(collection.CART_COLLECTION)
-          .updateOne(
-            { "products.productID": new ObjectId(productId) },
-            { $inc: { "products.$.quantity": 1 } },
-          );
+        return await db.collection(collection.CART_COLLECTION).updateOne(
+          {
+            userId: new ObjectId(userId),
+            "products.productID": new ObjectId(productId),
+          },
+          { $inc: { "products.$.quantity": 1 } },
+        );
       } else {
         return await db
           .collection(collection.CART_COLLECTION)
@@ -53,21 +54,28 @@ module.exports = {
           $match: { userId: new ObjectId(userId) },
         },
         {
-          $unwind: "$products"
+          $unwind: "$products",
         },
         {
           $project: {
             productId: "$products.productID",
-            quantity: "$products.quantity"
-          }
+            quantity: "$products.quantity",
+          },
         },
         {
           $lookup: {
             from: collection.PRODUCT_COLLECTION,
             localField: "productId",
             foreignField: "_id",
-            as: "cartProduct"
-          }
+            as: "cartProduct",
+          },
+        },
+        {
+          $project: {
+            item: 1,
+            quantity: 1,
+            cartProduct: { $arrayElemAt: ["$cartProduct", 0] },
+          },
         },
       ])
       .toArray();
@@ -86,5 +94,35 @@ module.exports = {
     } else {
       return count;
     }
+  },
+
+  changeProductQuantity: async function (cartID, productID, count) {
+    const db = getDB();
+    count = parseInt(count);
+    console.log(cartID, productID, typeof count);
+    return await db
+      .collection(collection.CART_COLLECTION)
+      .updateOne(
+        {
+          _id: new ObjectId(cartID),
+          "products.productID": new ObjectId(productID),
+        },
+        { $inc: { "products.$.quantity": count } },
+      );
+  },
+
+  deleteCartProduct: async function (cartID, productID) {
+    const db = getDB();
+
+    return await db.collection(collection.CART_COLLECTION).updateOne(
+      { _id: new ObjectId(cartID) },
+      {
+        $pull: {
+          products: {
+            productID: new ObjectId(productID),
+          },
+        },
+      },
+    );
   },
 };

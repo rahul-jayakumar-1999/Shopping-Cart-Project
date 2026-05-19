@@ -17,6 +17,16 @@ router.get("/logout", userController.userLogout);
 
 router.get("/cart", authMiddleware, cartController.getCart);
 router.get("/add-to-cart/:id", authMiddleware, cartController.addToCart);
+router.post(
+  "/change-product-quantity",
+  authMiddleware,
+  cartController.changeProductQuantity,
+);
+router.post(
+  "/delete-cart-product",
+  authMiddleware,
+  cartController.deleteCartProduct,
+);
 
 router.post("/login", userController.userLogin);
 router.post("/signup", userController.userSignUp);

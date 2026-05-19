@@ -2,18 +2,37 @@
   <table class="table">
     <tbody>
       {{#each cartProducts}}
-        <tr>
-          {{#each cartProduct}}
-            <td><img src="/uploads/{{this.image}}" alt="" width="50px" /></td>
-            <td>{{this.name}}</td>
-          {{/each}}
-          <td><button class="btn btn-outline-secondary">+</button>
-            <span>{{this.quantity}}</span>
-            <button class="btn btn-outline-secondary">-</button></td>
-          <td>{{this.price}}</td>
-          <td><a href="" class="btn btn-danger">Remove</a></td>
+        <tr id="row-{{this.cartProduct._id}}">
+          <td><img
+              src="/uploads/{{this.cartProduct.image}}"
+              alt=""
+              width="50px"
+            /></td>
+          <td>{{this.cartProduct.name}}</td>
+          <td>
+            <button
+              class="btn btn-outline-secondary"
+              onclick="changeQuantity('{{this._id}}', '{{this.cartProduct._id}}', 1)"
+            >+</button>
+            <span
+              id="cart-quantity-{{this.cartProduct._id}}"
+            >{{this.quantity}}</span>
+            <button
+              class="btn btn-outline-secondary"
+              onclick="changeQuantity('{{this._id}}', '{{this.cartProduct._id}}', -1)"
+              id="minus-btn-{{this.cartProduct._id}}"
+            >-</button>
+          </td>
+          <td>{{this.cartProduct.price}}</td>
+          <td><a
+              href=""
+              onclick="deleteProduct('{{this._id}}','{{this.cartProduct._id}}')"
+              class="btn btn-danger"
+            >Remove</a></td>
         </tr>
       {{/each}}
     </tbody>
   </table>
 </section>
+
+<script src="/javascripts/cart.js"></script>
