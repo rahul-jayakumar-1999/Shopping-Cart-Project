@@ -96,25 +96,41 @@ module.exports = {
     }
   },
 
-  changeProductQuantity: async function (cartID, productID, count) {
+  changeProductQuantity: async function (cartID, productID, count, quantity) {
     const db = getDB();
     count = parseInt(count);
-    console.log(cartID, productID, typeof count);
-    return await db
-      .collection(collection.CART_COLLECTION)
-      .updateOne(
+    quantity = parseInt(quantity);
+    console.log(cartID, productID, typeof count, quantity);
+    if (count === -1 && quantity === 1) {
+      await db.collection(collection.CART_COLLECTION).updateOne(
+        { _id: new ObjectId(cartID) },
+        {
+          $pull: {
+            products: {
+              productID: new ObjectId(productID),
+            },
+          },
+        },
+      );
+
+      return { removeProduct: true };
+    } else {
+      await db.collection(collection.CART_COLLECTION).updateOne(
         {
           _id: new ObjectId(cartID),
           "products.productID": new ObjectId(productID),
         },
         { $inc: { "products.$.quantity": count } },
       );
+
+      return { status: true };
+    }
   },
 
   deleteCartProduct: async function (cartID, productID) {
     const db = getDB();
 
-    return await db.collection(collection.CART_COLLECTION).updateOne(
+    await db.collection(collection.CART_COLLECTION).updateOne(
       { _id: new ObjectId(cartID) },
       {
         $pull: {
@@ -124,5 +140,7 @@ module.exports = {
         },
       },
     );
+
+    return { removeProduct: true };
   },
 };

@@ -1,3 +1,4 @@
+const { response } = require("express");
 const cartModel = require("../models/cartModel.js");
 
 module.exports = {
@@ -30,27 +31,11 @@ module.exports = {
   changeProductQuantity: async (req, res) => {
     try {
       console.log("changeProduct");
-      let { cartID, productID, count } = req.body;
-      console.log(cartID, productID, count);
-      await cartModel.changeProductQuantity(cartID, productID, count);
+      let { cartID, productID, count, quantity } = req.body;
 
-      const userID = req.session.user._id;
+      let response = await cartModel.changeProductQuantity(cartID, productID, count, quantity);
 
-      const cart = await cartModel.getCart(userID);
-
-      console.log(cart);
-
-      const updatedProduct = cart.find(
-        (product) => product.cartProduct._id.toString() === productID,
-      );
-
-      let quantity = 0;
-
-      if (updatedProduct) {
-        quantity = updatedProduct.quantity;
-      }
-
-      res.json({ status: true, quantity: quantity });
+      res.json(response)
     } catch (error) {
       console.error("Error adding product to cart: " + error);
     }
@@ -58,8 +43,8 @@ module.exports = {
   deleteCartProduct: async (req, res) => {
     const { cartID, productID } = req.body;
 
-    await cartModel.deleteCartProduct(cartID, productID);
+    let response = await cartModel.deleteCartProduct(cartID, productID);
 
-    res.json({ status: true });
+    res.json(response);
   }
 };
