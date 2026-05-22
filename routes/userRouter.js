@@ -4,6 +4,7 @@ var router = express.Router();
 const userController = require("../controllers/userController.js");
 const productController = require("../controllers/productController.js");
 const cartController = require("../controllers/cartController.js");
+const orderController = require("../controllers/orderController.js")
 
 const authMiddleware = require("../middleware/authMiddleware.js");
 const guestMiddleware = require("../middleware/guestMiddleware.js");
@@ -27,6 +28,8 @@ router.post(
   authMiddleware,
   cartController.deleteCartProduct,
 );
+
+router.get("/place-order", authMiddleware, orderController.getplaceOrderPage);
 
 router.post("/login", userController.userLogin);
 router.post("/signup", userController.userSignUp);

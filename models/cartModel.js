@@ -143,4 +143,61 @@ module.exports = {
 
     return { removeProduct: true };
   },
+
+  getTotalAmount: async function (userID) {
+    // console.log(`Total Amt userID: ${userID}`);
+    const db = getDB();
+    let total = await db
+      .collection(collection.CART_COLLECTION)
+      .aggregate([
+        {
+          $match: { userId: new ObjectId(userID) },
+        },
+        {
+          $unwind: "$products",
+        },
+        {
+          $project: {
+            productId: "$products.productID",
+            quantity: "$products.quantity",
+          },
+        },
+        {
+          $lookup: {
+            from: collection.PRODUCT_COLLECTION,
+            localField: "productId",
+            foreignField: "_id",
+            as: "cartProduct",
+          },
+        },
+        {
+          $project: {
+            item: 1,
+            quantity: 1,
+            cartProduct: { $arrayElemAt: ["$cartProduct", 0] },
+          },
+        },
+        {
+          $project: {
+            total: {
+              $sum: {
+                $multiply: [
+                  { $toDouble: "$cartProduct.price" },
+                  { $toInt: "$quantity" },
+                ],
+              },
+            },
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            totalAmount: { $sum: "$total" },
+          },
+        },
+      ])
+      .toArray();
+
+    return total[0]?.totalAmount || 0;
+  },
 };
