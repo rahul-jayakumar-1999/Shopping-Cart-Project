@@ -4,7 +4,7 @@ var router = express.Router();
 const userController = require("../controllers/userController.js");
 const productController = require("../controllers/productController.js");
 const cartController = require("../controllers/cartController.js");
-const orderController = require("../controllers/orderController.js")
+const orderController = require("../controllers/orderController.js");
 
 const authMiddleware = require("../middleware/authMiddleware.js");
 const guestMiddleware = require("../middleware/guestMiddleware.js");

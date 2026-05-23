@@ -6,8 +6,9 @@ module.exports = {
     try {
       const userId = req.session.user._id;
       let cartProducts = await cartModel.getCart(userId);
-      console.log(cartProducts);
-      res.render("user/cart", { title: "Cart", cartProducts });
+      let total = await cartModel.getTotalAmount(userId);
+      // console.log(cartProducts);
+      res.render("user/cart", { title: "Cart", cartProducts, total });
     } catch (error) {
       console.error("ERROR", error);
     }
@@ -30,12 +31,21 @@ module.exports = {
 
   changeProductQuantity: async (req, res) => {
     try {
-      console.log("changeProduct");
+      // console.log(req.body);
+      const userID = req.session.user._id;
+      // console.log("hello"+userID);
       let { cartID, productID, count, quantity } = req.body;
+      // console.log("change product quantity", userID);
+      let response = await cartModel.changeProductQuantity(
+        cartID,
+        productID,
+        count,
+        quantity,
+      );
 
-      let response = await cartModel.changeProductQuantity(cartID, productID, count, quantity);
-
-      res.json(response)
+      response.total = await cartModel.getTotalAmount(userID);
+      // console.log("hello" + response.total);
+      res.json(response);
     } catch (error) {
       console.error("Error adding product to cart: " + error);
     }
@@ -46,5 +56,5 @@ module.exports = {
     let response = await cartModel.deleteCartProduct(cartID, productID);
 
     res.json(response);
-  }
+  },
 };

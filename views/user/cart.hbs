@@ -34,9 +34,12 @@
       {{/each}}
     </tbody>
   </table>
-  <hr>
+  {{!-- <h1>{{user}}</h1> --}}
+  {{!-- <h1>{{user._id}}</h1> --}}
+  {{!-- <h1>{{user.user._id}}</h1> --}}
+  <hr />
   <div class="d-flex flex-column float-end">
-    <h3>TOTAL: 100000</h3>
+    <h3>TOTAL: <span id="total">{{total}}</span></h3>
     <a href="/place-order" class="btn btn-success">Place Order</a>
   </div>
 </section>

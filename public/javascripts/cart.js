@@ -5,7 +5,6 @@ async function changeQuantity(cartID, productID, count) {
     );
 
     count = parseInt(count);
-    console.log(quantity);
 
     const response = await fetch(`/change-product-quantity`, {
       method: "post",
@@ -27,8 +26,13 @@ async function changeQuantity(cartID, productID, count) {
 
       // alert("Product Removed");
     } else if (data.status) {
+      console.log(data);
+      console.log(data.status);
+
       document.getElementById(`cart-quantity-${productID}`).innerHTML =
         quantity + count;
+
+      document.getElementById("total").innerHTML = data.total;
     }
   } catch (error) {
     console.error("ERROR" + error);
@@ -52,6 +56,7 @@ async function deleteProduct(cartID, productID) {
 
     if (data.removeProduct) {
       document.getElementById(`row-${productID}`).remove();
+      location.reload();
     }
   } catch (error) {
     console.error("DELETE ERROR:", error);
