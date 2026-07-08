@@ -12,4 +12,12 @@ module.exports = {
       console.error(`ERROR: ${error}`);
     }
   },
+
+  addOrderDetails: async (req, res) => {
+    try {
+      console.log(req.body);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 };

@@ -23,7 +23,7 @@ async function changeQuantity(cartID, productID, count) {
 
     if (data.removeProduct) {
       document.getElementById(`row-${productID}`).remove();
-
+      document.getElementById("total").innerHTML = data.total;
       // alert("Product Removed");
     } else if (data.status) {
       console.log(data);
@@ -31,7 +31,8 @@ async function changeQuantity(cartID, productID, count) {
 
       document.getElementById(`cart-quantity-${productID}`).innerHTML =
         quantity + count;
-
+ 
+        console.log("total", data.total);
       document.getElementById("total").innerHTML = data.total;
     }
   } catch (error) {
