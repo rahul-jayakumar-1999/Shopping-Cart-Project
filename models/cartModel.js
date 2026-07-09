@@ -100,7 +100,7 @@ module.exports = {
     const db = getDB();
     count = parseInt(count);
     quantity = parseInt(quantity);
-    console.log(cartID, productID,  typeof count, quantity);
+    console.log(cartID, productID, typeof count, quantity);
     if (count === -1 && quantity === 1) {
       await db.collection(collection.CART_COLLECTION).updateOne(
         { _id: new ObjectId(cartID) },
@@ -199,5 +199,17 @@ module.exports = {
       .toArray();
 
     return total[0]?.totalAmount || 0;
+  },
+
+  getCartProductList: async function (userID) {
+    try {
+      const db = getDB();
+      const cart = await db
+        .collection(collection.CART_COLLECTION)
+        .findOne({ userId: new ObjectId(userID) });
+      return cart.products;
+    } catch (error) {
+      console.error(error);
+    }
   },
 };
