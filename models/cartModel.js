@@ -212,4 +212,15 @@ module.exports = {
       console.error(error);
     }
   },
+
+  removeCart: async function (userID) {
+    try {
+      const db = getDB();
+      await db
+        .collection(collection.CART_COLLECTION)
+        .deleteOne({ userId: new ObjectId(userID) });
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };

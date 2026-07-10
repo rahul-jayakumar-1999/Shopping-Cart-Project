@@ -10,7 +10,10 @@ document
         body: formData,
       });
 
-      console.log(response);
+      const data = await response.json();
+      if (data.success) {
+        location.href = "/order-success"
+      }
     } catch (error) {
       console.error(error);
     }

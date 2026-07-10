@@ -17,7 +17,9 @@ module.exports = {
         },
         paymentMethod: paymentType,
         products: productList,
+        totalAmount: totalPrice,
         status: status,
+        orderDate: new Date()
       };
 
       return await db

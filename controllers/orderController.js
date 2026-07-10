@@ -2,6 +2,10 @@ const orderModel = require("../models/orderModel.js");
 const cartModel = require("../models/cartModel.js");
 
 module.exports = {
+  getOrderSuccess: (req, res) => {
+    res.render("user/order-success");
+  },
+
   getplaceOrderPage: async (req, res) => {
     try {
       const userID = req.session.user._id;
@@ -23,9 +27,16 @@ module.exports = {
         cartProducts,
         totalAmount,
       );
-      console.log(order);
+      // console.log(order);
+      await cartModel.removeCart(userId);
+      res.json({
+        success: true,
+        order,
+      });
     } catch (error) {
-      console.error(error);
+      res.json({
+        success: false,
+      });
     }
   },
 };
