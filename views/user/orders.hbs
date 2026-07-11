@@ -1,0 +1,65 @@
+<section>
+  <section class="container">
+    <table class="table mt-3">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Address</th>
+          <th>Payment</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <!-- Main Row -->
+        {{#each orders}}
+        <tr>
+          <td>{{formatDate this.orderDate}}</td>
+          <td>Addr:
+            <span>{{this.deliveryDetails.address}}</span><br />PinCode:
+            <span>{{this.deliveryDetails.pincode}}</span><br />Mob:
+            <span>{{this.deliveryDetails.mobile}}</span></td>
+          <td>{{this.paymentMethod}}</td>
+          <td>{{this.totalAmount}}</td>
+          <td>{{this.status}}</td>
+          <td>
+            <button
+              class="btn btn-primary btn-sm"
+              data-bs-toggle="collapse"
+              data-bs-target="#order{{this._id}}"
+            >
+              View Products
+            </button>
+          </td>
+        </tr>
+
+        <!-- Hidden Row -->
+        <tr class="collapse" id="order{{this._id}}">
+          <td colspan="6">
+            <table class="table mb-0">
+              <tr>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price</th>
+              </tr>
+              {{#each this.products}}
+              <tr>
+                <td>
+                  <img src="/uploads/{{this.orderProduct.image}}" alt="" width="60px" />
+                </td>
+                <td>{{this.orderProduct.name}}</td>
+                <td>{{this.quantity}}</td>
+                <td>{{this.orderProduct.price}}</td>
+              </tr>
+              {{/each}}
+            </table>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+</section>

@@ -2,6 +2,25 @@ const orderModel = require("../models/orderModel.js");
 const cartModel = require("../models/cartModel.js");
 
 module.exports = {
+  getOrderPage: async (req, res) => {
+    try {
+      const userID = req.session.user._id;
+      let orders = await orderModel.getOrders(userID);
+      for (let order of orders) {
+        order.products = await orderModel.getOrderProducts(order._id);
+        console.log(order.products);
+      }
+
+      console.log(orders.products);
+      // console.log(products)
+      // console.log(orders);
+      res.render("user/orders", {title: "Orders", orders});
+    } catch (error) {
+      console.error(error);
+    }
+    
+  }, 
+
   getOrderSuccess: (req, res) => {
     res.render("user/order-success");
   },

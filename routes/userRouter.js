@@ -32,6 +32,7 @@ router.post(
 router.get("/place-order", authMiddleware, orderController.getplaceOrderPage);
 router.post("/place-order", authMiddleware, orderController.addOrderDetails);
 router.get("/order-success", authMiddleware, orderController.getOrderSuccess);
+router.get("/orders",authMiddleware, orderController.getOrderPage);
 
 router.post("/login", userController.userLogin);
 router.post("/signup", userController.userSignUp);

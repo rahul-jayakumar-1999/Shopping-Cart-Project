@@ -3,7 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-// const hbs = require('hbs');
+// const hbs = require("hbs");
 const exphbs = require("express-handlebars"); // layout and partials
 const fileUpload = require("express-fileupload"); // upload file / images
 // database connection
@@ -30,6 +30,11 @@ app.engine(
     layoutsDir: path.join(__dirname, "views/layouts"),
     partialsDir: path.join(__dirname, "views/partials"),
     defaultLayout: "layout", // layout file name
+    helpers: {
+      formatDate: function (date) {
+        return new Date(date).toLocaleDateString("en-GB");
+      },
+    },
   }),
 );
 // enable file upload
