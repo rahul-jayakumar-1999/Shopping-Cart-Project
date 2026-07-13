@@ -32,9 +32,17 @@ router.post(
 router.get("/place-order", authMiddleware, orderController.getplaceOrderPage);
 router.post("/place-order", authMiddleware, orderController.addOrderDetails);
 router.get("/order-success", authMiddleware, orderController.getOrderSuccess);
-router.get("/orders",authMiddleware, orderController.getOrderPage);
+router.get("/orders", authMiddleware, orderController.getOrderPage);
 
 router.post("/login", userController.userLogin);
 router.post("/signup", userController.userSignUp);
+
+router.get("/payment-success", async (req, res) => {
+  res.send("order success");
+});
+
+router.get("/payment-cancel", (req, res) => {
+  res.send("order cancel")
+});
 
 module.exports = router;

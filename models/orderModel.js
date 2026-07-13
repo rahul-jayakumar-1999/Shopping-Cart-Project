@@ -45,11 +45,11 @@ module.exports = {
       ])
       .toArray();
   },
-  placeOrder: async (orderData, productList, totalPrice) => {
+  placeOrder: async (orderData, productList, totalPrice, status) => {
     try {
       const db = getDB();
       const { address, pincode, mobile, userID, paymentType } = orderData;
-      let status = paymentType === "COD" ? "Placed" : "Pending";
+      
       let orderDetails = {
         userID: new ObjectId(userID),
         deliveryDetails: {

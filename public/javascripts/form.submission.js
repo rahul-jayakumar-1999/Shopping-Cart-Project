@@ -12,7 +12,13 @@ document
 
       const data = await response.json();
       if (data.success) {
-        location.href = "/order-success"
+        if (data.paymentMethod === "ONLINE") {
+          window.location.href = data.url;
+        } else {
+          window.location.href = "/order-success";
+        }
+      } else {
+        alert("failed to place order");
       }
     } catch (error) {
       console.error(error);
