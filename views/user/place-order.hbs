@@ -36,13 +36,13 @@
     </div>
     <div class="col-md-6">
       <div class="border border-2 p-3 w-50 d-flex flex-column">
-        <h3>Total: {{total}}</h3>
+        <h3>Total: {{currency total}}</h3>
         <hr />
         <div class="form-check">
           <input
             class="form-check-input"
             type="radio"
-            name="paymentType"
+            name="paymentMethod"
             id="gridRadios1"
             value="COD"
             checked
@@ -55,10 +55,9 @@
           <input
             class="form-check-input"
             type="radio"
-            name="paymentType"
+            name="paymentMethod"
             id="gridRadios1"
-            value="onlinePayment"
-            checked
+            value="ONLINE"
           />
           <label class="form-check-label" for="gridRadios1">
             Online Payment

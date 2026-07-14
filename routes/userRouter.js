@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-
+const stripe = require("../config/stripe.js");
 const userController = require("../controllers/userController.js");
 const productController = require("../controllers/productController.js");
 const cartController = require("../controllers/cartController.js");
@@ -37,12 +37,10 @@ router.get("/orders", authMiddleware, orderController.getOrderPage);
 router.post("/login", userController.userLogin);
 router.post("/signup", userController.userSignUp);
 
-router.get("/payment-success", async (req, res) => {
-  res.send("order success");
-});
+router.get("/payment-success",authMiddleware, orderController.paymentSuccess);
 
 router.get("/payment-cancel", (req, res) => {
-  res.send("order cancel")
+  res.send("order cancel");
 });
 
 module.exports = router;

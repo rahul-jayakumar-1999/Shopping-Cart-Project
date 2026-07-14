@@ -1,3 +1,11 @@
+function formatINR(amount) {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
 async function changeQuantity(cartID, productID, count) {
   try {
     let quantity = parseInt(
@@ -23,7 +31,7 @@ async function changeQuantity(cartID, productID, count) {
 
     if (data.removeProduct) {
       document.getElementById(`row-${productID}`).remove();
-      document.getElementById("total").innerHTML = data.total;
+      document.getElementById("total").innerHTML = formatINR(data.total);
       // alert("Product Removed");
     } else if (data.status) {
       console.log(data);
@@ -33,7 +41,7 @@ async function changeQuantity(cartID, productID, count) {
         quantity + count;
  
         console.log("total", data.total);
-      document.getElementById("total").innerHTML = data.total;
+      document.getElementById("total").innerHTML = formatINR(data.total);
     }
   } catch (error) {
     console.error("ERROR" + error);

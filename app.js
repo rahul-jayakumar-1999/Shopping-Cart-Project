@@ -34,6 +34,13 @@ app.engine(
       formatDate: function (date) {
         return new Date(date).toLocaleDateString("en-GB");
       },
+      currency: function (amount) {
+        return new Intl.NumberFormat("en-IN", {
+          style: "currency",
+          currency: "INR",
+          maximumFractionDigits: 0,
+        }).format(amount);
+      },
     },
   }),
 );

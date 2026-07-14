@@ -22,7 +22,7 @@
             <span>{{this.deliveryDetails.pincode}}</span><br />Mob:
             <span>{{this.deliveryDetails.mobile}}</span></td>
           <td>{{this.paymentMethod}}</td>
-          <td>{{this.totalAmount}}</td>
+          <td>{{currency this.totalAmount}}</td>
           <td>{{this.status}}</td>
           <td>
             <button
@@ -52,7 +52,7 @@
                 </td>
                 <td>{{this.orderProduct.name}}</td>
                 <td>{{this.quantity}}</td>
-                <td>{{this.orderProduct.price}}</td>
+                <td>{{currency this.orderProduct.price}}</td>
               </tr>
               {{/each}}
             </table>

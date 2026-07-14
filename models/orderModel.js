@@ -48,8 +48,8 @@ module.exports = {
   placeOrder: async (orderData, productList, totalPrice, status) => {
     try {
       const db = getDB();
-      const { address, pincode, mobile, userID, paymentType } = orderData;
-      
+      const { address, pincode, mobile, userID, paymentMethod } = orderData;
+
       let orderDetails = {
         userID: new ObjectId(userID),
         deliveryDetails: {
@@ -57,7 +57,7 @@ module.exports = {
           pincode: pincode,
           mobile: mobile,
         },
-        paymentMethod: paymentType,
+        paymentMethod: paymentMethod,
         products: productList,
         totalAmount: totalPrice,
         status: status,
@@ -70,5 +70,20 @@ module.exports = {
     } catch (error) {
       console.error(error);
     }
+  },
+
+  changePaymentStatus: async (orderID, paymentIntentID) => {
+    const db = getDB();
+
+    return await db.collection(collection.ORDER_COLLECTION).updateOne(
+      { _id: new ObjectId(orderID) },
+      {
+        $set: {
+          status: "Placed",
+          paymentStatus: "Paid",
+          transactionID: paymentIntentID,
+        },
+      },
+    );
   },
 };

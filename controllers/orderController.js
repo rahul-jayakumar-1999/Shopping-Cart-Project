@@ -49,7 +49,7 @@ module.exports = {
 
       if (paymentMethod === "COD") {
         await cartModel.removeCart(userId);
-        res.json({
+        return res.json({
           success: true,
           paymentMethod: "COD",
           orderID,
@@ -85,6 +85,8 @@ module.exports = {
           cancel_url: "http://localhost:3000/payment-cancel",
         });
 
+        // console.log("Session", session);
+
         return res.json({
           success: true,
           paymentMethod: "ONLINE",
@@ -99,6 +101,26 @@ module.exports = {
       res.json({
         success: false,
       });
+    }
+  },
+
+  paymentSuccess: async (req, res) => {
+    try {
+      const session = await stripe.checkout.sessions.retrieve(
+        req.query.session_id,
+      );
+
+      // console.log(session);
+
+      await orderModel.changePaymentStatus(
+        session.metadata.orderID,
+        session.payment_intent,
+      );
+
+      res.render("user/order-success");
+    } catch (err) {
+      console.log(err);
+      res.send("Payment Error");
     }
   },
 };
