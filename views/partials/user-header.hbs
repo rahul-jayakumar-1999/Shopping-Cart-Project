@@ -1,65 +1,90 @@
-{{! User Navbar }}
 <header>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Shopping Cart</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+
+      <a class="navbar-brand fw-bold" href="/">
+        🛒 Shopping Cart
+      </a>
+
       <button
         class="navbar-toggler"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <ul class="navbar-nav me-auto">
+
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">Products</a>
+            <a class="nav-link active" href="/">Products</a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="/cart">Cart<span class="badge bg-danger mx-2" id="cart-count">{{cartCount}}</span></a>
+            <a class="nav-link" href="/cart">
+              Cart
+              <span class="badge bg-danger ms-1" id="cart-count">
+                {{cartCount}}
+              </span>
+            </a>
           </li>
+
           {{#if user}}
             <li class="nav-item">
               <a class="nav-link" href="/orders">Orders</a>
             </li>
           {{/if}}
+
         </ul>
-        <div class="dropdown me-3 mb-3 mb-sm-3 mb-lg-0">
+
+        <form class="d-flex me-3">
+          <input
+            class="form-control"
+            type="search"
+            placeholder="Search Products"
+          />
+        </form>
+
+        <div class="dropdown">
+
           <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
+            class="btn btn-outline-light dropdown-toggle"
             data-bs-toggle="dropdown"
-            aria-expanded="false"
           >
+
             {{#if user}}
               {{user.name}}
             {{else}}
               Account
             {{/if}}
+
           </button>
-          <ul class="dropdown-menu">
+
+          <ul class="dropdown-menu dropdown-menu-end">
+
             {{#if user}}
-              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+              <li>
+                <a class="dropdown-item" href="/logout">
+                  Logout
+                </a>
+              </li>
             {{else}}
-              <li><a class="dropdown-item" href="/login">Login</a></li>
+              <li>
+                <a class="dropdown-item" href="/login">
+                  Login
+                </a>
+              </li>
             {{/if}}
 
           </ul>
+
         </div>
-        <form class="d-flex mb-0" role="search">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+
       </div>
+
     </div>
   </nav>
 </header>

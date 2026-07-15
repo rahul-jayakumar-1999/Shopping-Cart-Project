@@ -1,65 +1,141 @@
-<section>
-  <section class="container">
-    <table class="table mt-3">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Address</th>
-          <th>Payment</th>
-          <th>Amount</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
+<section class="container py-5">
 
-      <tbody>
-        <!-- Main Row -->
-        {{#each orders}}
-        <tr>
-          <td>{{formatDate this.orderDate}}</td>
-          <td>Addr:
-            <span>{{this.deliveryDetails.address}}</span><br />PinCode:
-            <span>{{this.deliveryDetails.pincode}}</span><br />Mob:
-            <span>{{this.deliveryDetails.mobile}}</span></td>
-          <td>{{this.paymentMethod}}</td>
-          <td>{{currency this.totalAmount}}</td>
-          <td>{{this.status}}</td>
-          <td>
+  <h2 class="text-center fw-bold mb-5">
+    My Orders
+  </h2>
+
+  {{#each orders}}
+
+    <div class="card shadow-sm border-0 mb-4">
+
+      <div class="card-body">
+
+        <div class="row g-3 align-items-center">
+
+          <!-- Order Details -->
+          <div class="col-lg-8">
+
+            <div class="row">
+
+              <div class="col-md-4">
+                <small class="text-muted">Order Date</small>
+                <h6>{{formatDate this.orderDate}}</h6>
+              </div>
+
+              <div class="col-md-4">
+                <small class="text-muted">Payment</small>
+                <h6>{{this.paymentMethod}}</h6>
+              </div>
+
+              <div class="col-md-4">
+                <small class="text-muted">Total</small>
+                <h5 class="text-success">
+                  {{currency this.totalAmount}}
+                </h5>
+              </div>
+
+            </div>
+
+            <hr />
+
+            <h6 class="mb-2">
+              Delivery Address
+            </h6>
+
+            <p class="text-muted mb-0">
+              {{this.deliveryDetails.address}}<br />
+
+              Pin Code :
+              {{this.deliveryDetails.pincode}}<br />
+
+              Mobile :
+              {{this.deliveryDetails.mobile}}
+            </p>
+
+          </div>
+
+          <!-- Status -->
+          <div class="col-lg-4 text-lg-end">
+
+            <span class="badge bg-success px-3 py-2 fs-6">
+              {{this.status}}
+            </span>
+
+            <br /><br />
+
             <button
-              class="btn btn-outline-primary btn-sm"
+              class="btn btn-outline-primary"
               data-bs-toggle="collapse"
               data-bs-target="#order{{this._id}}"
             >
               View Products
             </button>
-          </td>
-        </tr>
 
-        <!-- Hidden Row -->
-        <tr class="collapse" id="order{{this._id}}">
-          <td colspan="6">
-            <table class="table mb-0">
-              <tr>
-                <th>Image</th>
-                <th>Product</th>
-                <th>Qty</th>
-                <th>Price</th>
-              </tr>
-              {{#each this.products}}
-              <tr>
-                <td>
-                  <img src="/uploads/{{this.orderProduct.image}}" alt="" width="60px" />
-                </td>
-                <td>{{this.orderProduct.name}}</td>
-                <td>{{this.quantity}}</td>
-                <td>{{currency this.orderProduct.price}}</td>
-              </tr>
-              {{/each}}
-            </table>
-          </td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </section>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Products -->
+      <div class="collapse" id="order{{this._id}}">
+
+        <hr class="m-0" />
+
+        <div class="card-body">
+
+          {{#each this.products}}
+
+            <div class="row align-items-center mb-3">
+
+              <div class="col-2 col-md-1">
+
+                <img
+                  src="/uploads/{{this.orderProduct.image}}"
+                  class="img-fluid rounded"
+                />
+
+              </div>
+
+              <div class="col-5">
+
+                <h6 class="mb-1">
+                  {{this.orderProduct.name}}
+                </h6>
+
+              </div>
+
+              <div class="col-2 text-center">
+
+                Qty
+                <br />
+
+                <strong>{{this.quantity}}</strong>
+
+              </div>
+
+              <div class="col-3 text-end">
+
+                <strong class="text-success">
+                  {{currency this.orderProduct.price}}
+                </strong>
+
+              </div>
+
+            </div>
+
+            {{#unless @last}}
+              <hr />
+            {{/unless}}
+
+          {{/each}}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  {{/each}}
+
 </section>

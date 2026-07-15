@@ -1,47 +1,98 @@
-<section class="container mt-5">
-  <h2 class="text-center">Cart</h2>
-  <table class="table">
-    <tbody>
-      {{#each cartProducts}}
-        <tr id="row-{{this.cartProduct._id}}">
-          <td><img
+<section class="container py-5">
+  <h2 class="text-center fw-bold mb-4">Shopping Cart</h2>
+
+  {{#each cartProducts}}
+    <div
+      class="card shadow-sm border-0 rounded-3 mb-3"
+      id="row-{{this.cartProduct._id}}"
+    >
+      <div class="card-body">
+
+        <div class="row align-items-center">
+
+          <!-- Left Side -->
+          <div class="col-md-8 d-flex align-items-center">
+            <img
               src="/uploads/{{this.cartProduct.image}}"
-              alt=""
-              width="50px"
-            /></td>
-          <td>{{this.cartProduct.name}}</td>
-          <td>
+              class="img-fluid rounded"
+              style="width:100px; height:100px; object-fit:contain; background:#f8f9fa;"
+              alt="{{this.cartProduct.name}}"
+            />
+
+            <div class="ms-3">
+              <h5 class="mb-1">{{this.cartProduct.name}}</h5>
+
+              <div class="mt-3">
+
+                <button
+                  class="btn btn-outline-secondary btn-sm"
+                  onclick="changeQuantity('{{this._id}}','{{this.cartProduct._id}}',-1)"
+                >
+                  -
+                </button>
+
+                <span
+                  class="mx-3 fw-bold"
+                  id="cart-quantity-{{this.cartProduct._id}}"
+                >
+                  {{this.quantity}}
+                </span>
+
+                <button
+                  class="btn btn-outline-secondary btn-sm"
+                  onclick="changeQuantity('{{this._id}}','{{this.cartProduct._id}}',1)"
+                >
+                  +
+                </button>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Side -->
+          <div class="col-md-4 text-md-end text-start mt-3 mt-md-0">
+
+            <h4 class="text-success mb-3">
+              {{currency this.cartProduct.price}}
+            </h4>
+
             <button
-              class="btn btn-outline-secondary"
-              onclick="changeQuantity('{{this._id}}', '{{this.cartProduct._id}}', 1)"
-            >+</button>
-            <span
-              id="cart-quantity-{{this.cartProduct._id}}"
-            >{{this.quantity}}</span>
-            <button
-              class="btn btn-outline-secondary"
-              onclick="changeQuantity('{{this._id}}', '{{this.cartProduct._id}}', -1)"
-              id="minus-btn-{{this.cartProduct._id}}"
-            >-</button>
-          </td>
-          <td>{{currency this.cartProduct.price}}</td>
-          <td><a
-              href=""
+              class="btn btn-outline-danger"
               onclick="deleteProduct('{{this._id}}','{{this.cartProduct._id}}')"
-              class="btn btn-danger"
-            >Remove</a></td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-  {{!-- <h1>{{user}}</h1> --}}
-  {{!-- <h1>{{user._id}}</h1> --}}
-  {{!-- <h1>{{user.user._id}}</h1> --}}
-  <hr />
-  <div class="d-flex flex-column float-end">
-    <h3>TOTAL: <span id="total">{{currency total}}</span></h3>
-    <a href="/place-order" class="btn btn-success">Place Order</a>
+            >
+              Remove
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  {{/each}}
+
+  <!-- Total Card -->
+  <div class="card shadow border-0 mt-4">
+    <div class="card-body">
+
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+        <h3 class="mb-3 mb-md-0">
+          Total :
+          <span class="text-success" id="total">
+            {{currency total}}
+          </span>
+        </h3>
+
+        <a href="/place-order" class="btn btn-success btn-lg px-4">
+          Place Order
+        </a>
+
+      </div>
+
+    </div>
   </div>
+
 </section>
 
 <script src="/javascripts/cart.js"></script>
