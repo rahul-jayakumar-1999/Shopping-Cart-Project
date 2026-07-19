@@ -8,7 +8,7 @@ module.exports = {
       title: "Login",
       error: req.session.error || null,
     });
-    req.session.error = null; 
+    req.session.error = null;
   },
 
   getUserSignup: (req, res) => res.render("user/Signup", { title: "Login" }),
@@ -54,6 +54,7 @@ module.exports = {
           name: user.name,
           email: user.email,
         };
+        req.session.userLoggedIn = true;
         console.log("Login Successfull");
         req.session.error = null;
         res.redirect("/");
@@ -66,10 +67,16 @@ module.exports = {
   },
 
   userLogout: (req, res) => {
-    req.session.destroy(() => {
-      res.clearCookie("connect.sid"); // default cookie name
-      console.log("Logout Successfully");
-      res.redirect("/login");
-    });
+    // req.session.destroy(() => {
+
+    //   res.clearCookie("connect.sid"); // default cookie name
+    //   console.log("Logout Successfully");
+    //   res.redirect("/login");
+    // });
+
+    req.session.user = null;
+    req.session.userLoggedIn = false;
+
+    res.redirect("/login");
   },
 };

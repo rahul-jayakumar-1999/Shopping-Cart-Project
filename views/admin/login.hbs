@@ -15,12 +15,12 @@
             </h2>
 
             <p class="text-muted">
-              Login to continue shopping.
+              Admin Login.
             </p>
 
           </div>
 
-          <form method="POST" action="/login">
+          <form method="POST" action="/admin/login">
 
             <div class="mb-3">
 
@@ -33,7 +33,7 @@
                 class="form-control"
                 name="email"
                 placeholder="Enter your email"
-                value=""
+                value="{{admin.email}}"
                 required
               />
 
@@ -50,7 +50,7 @@
                 class="form-control"
                 name="password"
                 placeholder="Enter your password"
-                value=""
+                value="{{admin.password}}"
                 required
               />
 
@@ -66,16 +66,6 @@
           </form>
 
           <hr class="my-4" />
-
-          <p class="text-center mb-0">
-
-            Don't have an account?
-
-            <a href="/signup" class="text-decoration-none fw-semibold">
-              Sign Up
-            </a>
-
-          </p>
 
         </div>
 

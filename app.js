@@ -58,6 +58,16 @@ app.use(
     },
   }),
 );
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  res.locals.userLoggedIn = req.session.userLoggedIn;
+
+  res.locals.admin = req.session.admin;
+  res.locals.adminLoggedIn = req.session.adminLoggedIn;
+
+  next();
+});
 // Prevent browser caching
 app.use((req, res, next) => {
   res.set("Cache-Control", "no-store");

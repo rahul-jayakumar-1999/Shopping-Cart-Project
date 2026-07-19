@@ -20,7 +20,7 @@ module.exports = {
           title: "Shopping Cart",
           products,
           admin: false,
-          cartCount
+          cartCount,
         });
       })
       .catch((err) => {
@@ -32,7 +32,7 @@ module.exports = {
     productModel
       .getProduct()
       .then((products) => {
-        res.render("admin/view-products", { products, admin: true });
+        res.render("admin/view-products", { products });
       })
       .catch((err) => {
         console.error("ERROR: " + err);
@@ -122,7 +122,7 @@ module.exports = {
     try {
       let productId = req.params.id;
       let { name, category, description, price } = req.body;
-      
+
       console.log(name, category, description, price);
       let fileName = "";
 
@@ -156,6 +156,18 @@ module.exports = {
       console.log("Successfull");
     } catch (error) {
       console.log(error);
+    }
+  },
+
+  searchProduct: async (req, res) => {
+    try {
+      const search = (req.query.search || "").trim();
+
+      const products = await productModel.searchProduct(search);
+
+      res.render("admin/view-products", { products });
+    } catch (err) {
+      console.log(err);
     }
   },
 };

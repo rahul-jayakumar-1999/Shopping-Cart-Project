@@ -70,4 +70,18 @@ module.exports = {
       },
     );
   },
+
+  searchProduct: async (search) => {
+    const db = getDB();
+
+    return await db
+      .collection(collection.PRODUCT_COLLECTION)
+      .find({
+        name: {
+          $regex: search,
+          $options: "i", // case-insensitive
+        },
+      })
+      .toArray();
+  },
 };

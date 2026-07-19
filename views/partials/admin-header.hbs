@@ -43,19 +43,26 @@
         </ul>
 
         <!-- Search -->
-        <form class="d-flex ms-lg-4 mt-3 mt-lg-0">
-
+        <form class="d-flex" action="/admin/search" method="GET">
           <input
             class="form-control me-2"
             type="search"
+            name="search"
             placeholder="Search Products"
           />
 
           <button class="btn btn-outline-light" type="submit">
             Search
           </button>
-
         </form>
+        {{#if adminLoggedIn}}
+          <div class="mx-auto">
+            <span class="text-white">{{admin.email}}</span>
+            <a class="btn btn-outline-danger" href="admin/logout">
+              Logout
+            </a>
+          </div>
+        {{/if}}
 
       </div>
 
